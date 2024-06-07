@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_role")
 public class Role {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -44,7 +44,7 @@ public class Role {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(authority);
 	}
 
 	@Override
@@ -56,7 +56,6 @@ public class Role {
 		if (getClass() != obj.getClass())
 			return false;
 		Role other = (Role) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(authority, other.authority);
 	}
-	
 }

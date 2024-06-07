@@ -1,10 +1,8 @@
 package com.devsuperior.dscatalog.dto;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-import com.devsuperior.dscatalog.entities.Role;
 import com.devsuperior.dscatalog.entities.User;
 
 import jakarta.validation.constraints.Email;
@@ -17,7 +15,7 @@ public class UserDTO {
 	@NotBlank(message = "Campo obrigatório")
 	private String firstName;
 	private String lastName;
-	
+
 	@Email(message = "Favor entrar um email válido")
 	private String email;
 	
@@ -26,7 +24,7 @@ public class UserDTO {
 	public UserDTO() {
 	}
 
-	public UserDTO(Long id, String firstName, String lastName, String email, Set<Role> roles) {
+	public UserDTO(Long id, String firstName, String lastName, String email) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -76,22 +74,4 @@ public class UserDTO {
 	public Set<RoleDTO> getRoles() {
 		return roles;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UserDTO other = (UserDTO) obj;
-		return Objects.equals(id, other.id);
-	}
-
 }

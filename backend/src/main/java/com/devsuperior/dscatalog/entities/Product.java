@@ -26,7 +26,6 @@ public class Product {
 	
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	
 	private Double price;
 	private String imgUrl;
 	
@@ -34,7 +33,9 @@ public class Product {
 	private Instant date;
 	
 	@ManyToMany
-	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JoinTable(name = "tb_product_category",
+		joinColumns = @JoinColumn(name = "product_id"),
+		inverseJoinColumns = @JoinColumn(name = "category_id"))	
 	Set<Category> categories = new HashSet<>();
 	
 	public Product() {
@@ -117,5 +118,4 @@ public class Product {
 		Product other = (Product) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }

@@ -52,22 +52,22 @@ public class CategoryService {
 			entity.setName(dto.getName());
 			entity = repository.save(entity);
 			return new CategoryDTO(entity);
-		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found " + id); 
 		}
-	}
-	
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public void delete(Long id) {
-		if (!repository.existsById(id)) {
-			throw new ResourceNotFoundException("Id");
-		}
-		try {
-	        	repository.deleteById(id);    		
-		}
-	    	catch (DataIntegrityViolationException e) {
-	        	throw new DatabaseException("Integrity violation");
-	   	}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}		
 	}
 
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+    	if (!repository.existsById(id)) {
+    		throw new ResourceNotFoundException("Recurso não encontrado");
+    	}
+    	try {
+            repository.deleteById(id);    		
+    	}
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Falha de integridade referencial");
+        }
+    }
 }

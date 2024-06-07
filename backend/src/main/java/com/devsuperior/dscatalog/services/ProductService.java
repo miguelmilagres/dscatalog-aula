@@ -52,29 +52,30 @@ public class ProductService {
 	}
 
 	@Transactional
-	public ProductDTO update(Long id,ProductDTO dto) {
+	public ProductDTO update(Long id, ProductDTO dto) {
 		try {
 			Product entity = repository.getReferenceById(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
-		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found " + id); 
 		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}		
 	}
 
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public void delete(Long id) {
-		if (!repository.existsById(id)) {
-			throw new ResourceNotFoundException("Id");
-		}
-		try {
-	        	repository.deleteById(id);    		
-		}
-	    	catch (DataIntegrityViolationException e) {
-	        	throw new DatabaseException("Integrity violation");
-	   	}
-	}
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+    	if (!repository.existsById(id)) {
+    		throw new ResourceNotFoundException("Recurso não encontrado");
+    	}
+    	try {
+            repository.deleteById(id);    		
+    	}
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Falha de integridade referencial");
+        }
+    }
 	
 	private void copyDtoToEntity(ProductDTO dto, Product entity) {
 
@@ -87,8 +88,7 @@ public class ProductService {
 		entity.getCategories().clear();
 		for (CategoryDTO catDto : dto.getCategories()) {
 			Category category = categoryRepository.getReferenceById(catDto.getId());
-			entity.getCategories().add(category);
+			entity.getCategories().add(category);			
 		}
-	}
-
+	}	
 }

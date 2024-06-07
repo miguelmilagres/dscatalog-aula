@@ -3,13 +3,13 @@ package com.devsuperior.dscatalog.dto;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -21,22 +21,24 @@ public class ProductDTO {
 	@Size(min = 5, max = 60, message = "Deve ter entre 5 e 60 caracteres")
 	@NotBlank(message = "Campo requerido")
 	private String name;
-	
+
 	@NotBlank(message = "Campo requerido")
 	private String description;
 	
 	@Positive(message = "Preço deve ser um valor positivo")
 	private Double price;
+	
 	private String imgUrl;
 	
 	@PastOrPresent(message = "A data do produto não pode ser futura")
 	private Instant date;
 	
+	@NotEmpty(message = "Produto sem categoria não é permitido")
 	private List<CategoryDTO> categories = new ArrayList<>();
-
+	
 	public ProductDTO() {
 	}
-	
+
 	public ProductDTO(Long id, String name, String description, Double price, String imgUrl, Instant date) {
 		this.id = id;
 		this.name = name;
@@ -112,21 +114,7 @@ public class ProductDTO {
 		return categories;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public void setCategories(List<CategoryDTO> categories) {
+		this.categories = categories;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ProductDTO other = (ProductDTO) obj;
-		return Objects.equals(id, other.id);
-	}
-
 }

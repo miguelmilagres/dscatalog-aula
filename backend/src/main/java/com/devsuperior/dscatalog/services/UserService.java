@@ -26,8 +26,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
-
-	@Autowired 
+	
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
@@ -65,23 +65,24 @@ public class UserService {
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new UserDTO(entity);
-		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found " + id); 
 		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}		
 	}
 
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public void delete(Long id) {
-		if (!repository.existsById(id)) {
-			throw new ResourceNotFoundException("Id");
-		}
-		try {
-	        	repository.deleteById(id);    		
-		}
-	    	catch (DataIntegrityViolationException e) {
-	        	throw new DatabaseException("Integrity violation");
-	   	}
-	}
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+    	if (!repository.existsById(id)) {
+    		throw new ResourceNotFoundException("Recurso não encontrado");
+    	}
+    	try {
+            repository.deleteById(id);    		
+    	}
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Falha de integridade referencial");
+        }
+    }
 	
 	private void copyDtoToEntity(UserDTO dto, User entity) {
 
@@ -95,5 +96,4 @@ public class UserService {
 			entity.getRoles().add(role);
 		}
 	}
-
 }

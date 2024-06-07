@@ -1,7 +1,5 @@
 package com.devsuperior.dscatalog.dto;
 
-import java.util.Objects;
-
 import com.devsuperior.dscatalog.entities.Role;
 
 public class RoleDTO {
@@ -13,15 +11,17 @@ public class RoleDTO {
 	}
 
 	public RoleDTO(Long id, String authority) {
+		super();
 		this.id = id;
 		this.authority = authority;
 	}
-	
+
 	public RoleDTO(Role role) {
+		super();
 		id = role.getId();
 		authority = role.getAuthority();
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -37,22 +37,4 @@ public class RoleDTO {
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RoleDTO other = (RoleDTO) obj;
-		return Objects.equals(id, other.id);
-	}
-	
 }
